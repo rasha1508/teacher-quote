@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspirational Quote Widget</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Lato', sans-serif;
+            padding: 20px;
+        }
+        
+        .quote-widget {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(77, 53, 46, 0.15);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .quote-content {
+            padding: 50px 60px 40px;
+            text-align: center;
+        }
+        
+        .quote-icon {
+            font-size: 32px;
+            color: #DA7E54;
+            margin-bottom: 30px;
+        }
+        
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            line-height: 1.5;
+            color: #4D352E;
+            margin-bottom: 30px;
+            position: relative;
+            font-style: italic;
+        }
+        
+        .quote-text::before, .quote-text::after {
+            content: """;
+            font-size: 70px;
+            position: absolute;
+            opacity: 0.2;
+            color: #DA7E54;
+            font-family: Georgia, serif;
+        }
+        
+        .quote-text::before {
+            top: -25px;
+            left: -20px;
+        }
+        
+        .quote-text::after {
+            content: """;
+            bottom: -45px;
+            right: -20px;
+        }
+        
+        .quote-author {
+            font-size: 20px;
+            color: #DA7E54;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .color-indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 35px;
+            gap: 8px;
+        }
+        
+        .color-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+        
+        .color-dot:nth-child(1) {
+            background-color: #4D352E;
+        }
+        
+        .color-dot:nth-child(2) {
+            background-color: #DA7E54;
+        }
+        
+        .color-dot:nth-child(3) {
+            background-color: #F5F5DC;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 900px) {
+            .quote-widget {
+                max-width: 700px;
+            }
+            
+            .quote-content {
+                padding: 45px 50px 35px;
+            }
+            
+            .quote-text {
+                font-size: 28px;
+            }
+            
+            .quote-text::before, .quote-text::after {
+                font-size: 60px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .quote-widget {
+                max-width: 100%;
+            }
+            
+            .quote-content {
+                padding: 40px 30px 30px;
+            }
+            
+            .quote-text {
+                font-size: 24px;
+            }
+            
+            .quote-text::before, .quote-text::after {
+                font-size: 50px;
+            }
+            
+            .quote-author {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quote-widget">
+        <div class="quote-content">
+            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+            <div class="quote-text" id="quote-text">"A teacher affects eternity; they can never tell where their influence stops."</div>
+            <div class="quote-author" id="quote-author">— Henry Adams</div>
+            
+            <div class="color-indicators">
+                <div class="color-dot"></div>
+                <div class="color-dot"></div>
+                <div class="color-dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Array of teacher quotes
+        const quotes = [
+            {
+                text: "A teacher affects eternity; they can never tell where their influence stops.",
+                author: "Henry Adams"
+            },
+            {
+                text: "The art of teaching is the art of assisting discovery.",
+                author: "Mark Van Doren"
+            },
+            {
+                text: "Education is not the filling of a pail, but the lighting of a fire.",
+                author: "William Butler Yeats"
+            },
+            {
+                text: "The influence of a great teacher can never be erased.",
+                author: "Unknown"
+            },
+            {
+                text: "The mediocre teacher tells. The good teacher explains. The superior teacher demonstrates. The great teacher inspires.",
+                author: "William Arthur Ward"
+            },
+            {
+                text: "Teachers can change lives with just the right mix of chalk and challenges.",
+                author: "Joyce Meyer"
+            },
+            {
+                text: "What the teacher is, is more important than what they teach.",
+                author: "Karl Menninger"
+            },
+            {
+                text: "The dream begins with a teacher who believes in you, who tugs and pushes and leads you to the next plateau.",
+                author: "Dan Rather"
+            },
+            {
+                text: "A good teacher can inspire hope, ignite the imagination, and instill a love of learning.",
+                author: "Brad Henry"
+            },
+            {
+                text: "Teaching is the greatest act of optimism.",
+                author: "Colleen Wilcox"
+            }
+        ];
+
+        // DOM elements
+        const quoteText = document.getElementById('quote-text');
+        const quoteAuthor = document.getElementById('quote-author');
+
+        // Function to generate random quote
+        function generateQuote() {
+            // Get a random quote index
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            
+            // Get the random quote
+            const randomQuote = quotes[randomIndex];
+            
+            // Update the quote text and author
+            quoteText.textContent = `"${randomQuote.text}"`;
+            quoteAuthor.textContent = `— ${randomQuote.author}`;
+            
+            // Add a subtle animation effect
+            quoteText.style.opacity = 0;
+            quoteAuthor.style.opacity = 0;
+            
+            setTimeout(() => {
+                quoteText.style.transition = 'opacity 0.8s';
+                quoteAuthor.style.transition = 'opacity 0.8s';
+                quoteText.style.opacity = 1;
+                quoteAuthor.style.opacity = 1;
+            }, 100);
+        }
+
+        // Initialize with a random quote on page load
+        window.addEventListener('load', generateQuote);
+        
+        // Set interval to change quote every minute (60000 milliseconds)
+        setInterval(generateQuote, 60000);
+    </script>
+</body>
+</html>
